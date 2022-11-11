@@ -1,0 +1,207 @@
+from tkinter import *
+from tkinter import ttk
+
+
+account_list=[]
+
+class child: 
+    def __init__(self, name, allowance, bonus):
+        self.name = name
+        self.allowance = float(allowance)
+        self.bonus = bonus
+        account_list.append(self)
+        print(account_list)
+        
+        
+        
+    def withdraw(self, amount):
+        if amount > 0 and amount <= self.allowance:
+            self.allowance -= amount
+            return True
+        else:
+            return False 
+    
+    def get_bonus(self):
+        if self.balance > 50:
+            x=input("What is the activity that you wish to have.") 
+            while True:
+                try:
+                    mod_b = str(x)
+                    check_str = isinstance(mod_b, str)
+                    if (check_str) == True:
+                        return(bonus)
+                except:
+                    x=input("That is not a valid input. Please enter a proper activity.")
+                    continue       
+            self.bonus=mod_b
+            
+            return True
+        else:
+            return False
+
+
+def get_data():
+    account_file = open("accounts.txt","r")
+    line_list = account_file.readlines()
+
+    for line in line_list:
+        account_data = line.strip().split(",")
+        Account(*account_data)
+
+    account_file.close()
+
+def withdraw_money(account):
+    if account.withdraw(amount.get()):
+        message = random.choice(withdraw_messages)
+        message_text.set(message)
+        action_feedback.set("Success! Total of ${:.2f} withdrawn from {}".format(amount.get(), account.name))
+    else:
+        action_feedback.set("Not enough money in {} or not a valid amount".format(account.name))
+
+#def change_bonus(account):
+    #if account.b
+    
+def create_name_list():
+    name_list = []
+    for account in account_list:
+        name_list.append(account.name)
+    return name_list    
+
+def update_balance():
+    total_balance = 0
+    balance_string = ""
+    account_file = open("accounts.txt", "w")
+    
+    for account in account_list:
+        
+        balance_string += "{}: ${:.2f} - {:.0f} \n".format(account.name, account.balance, account.bonus)
+        total_balance += account.balance
+
+    account_details.set(balance_string)
+    account_file.write("{},{},{}\n".format(account.name, account.balance, account.bonus))    
+    
+
+
+# Create the manage action function
+def manage_action():
+    try:
+        for account in account_list:
+            if chosen_account.get() == account.name:
+                if chosen_action.get() == "Withdraw":
+                    withdraw_money(account)
+                else:
+                    change_bonus(bonus)
+
+        # Update the GUI
+        update_balance()
+        amount.set("")
+
+    # Add an exception for text input
+    except ValueError:
+        action_feedback.set("Please enter a valid number")
+
+
+
+account_names=["Nikau", "Hana", "Tia"]
+
+
+
+#Class set up 
+
+Nikau = child("Nikau", 300, "Bonus not gotten")
+Hana = child("Hana", 300, "Bonus not gotten")
+Tia = child("Tia", 300, "Bonus not gotten")
+account_names = create_name_list()
+
+print(account_list)
+
+##Gui
+
+root = Tk()
+root.title("Clothing Allowance")
+
+frame1 = ttk.Frame(root)
+frame1.grid(row=0, column=0)
+
+title_label = ttk.Label(frame1, text="Clothing Allowance App")
+title_label.grid(row=0, column=0, padx=10, pady=5)
+
+top_frame = ttk.LabelFrame(root, text="Details")
+top_frame.grid(row=0, column=0, padx=10, pady=10, sticky="NSEW")
+
+message_text = StringVar()
+message_text.set("Welcome! You can withdraw allowance money or check your eligiblity for a bonus.")
+
+message_label = ttk.Label(top_frame, textvariable=message_text, wraplength=250)
+message_label.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+
+
+#Combobox for different children 
+
+
+bottom_frame = ttk.LabelFrame(root)
+bottom_frame.grid(row=1, column=0, padx=10, pady=10, sticky="NSEW")
+
+account_label = ttk.Label(bottom_frame, text="Child: ")
+account_label.grid(row=3, column=0, padx=10, pady=3)
+
+
+chosen_account = StringVar()
+chosen_account.set(account_names[0])
+
+account_box = ttk.Combobox(bottom_frame, textvariable=chosen_account, state="readonly")
+account_box['values'] = account_names
+account_box.grid(row=3, column=1, padx=10, pady=3, sticky="WE")
+
+
+account_details = StringVar()
+
+
+details_label = ttk.Label(top_frame, textvariable=account_details)
+details_label.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
+
+
+action_label = ttk.Label(bottom_frame, text="Action:")
+action_label.grid(row=4, column=0)
+
+
+
+# Set up a variable and option list for the action Combobox
+action_list = ["Withdraw", "Bonus"]
+chosen_action = StringVar()
+chosen_action.set(action_list[0])
+
+# Create the Combobox to select the action
+action_box = ttk.Combobox(bottom_frame, textvariable=chosen_action, state="readonly")
+action_box['values'] = action_list
+action_box.grid(row=4, column=1, padx=10, pady=3, sticky="WE")
+
+# Create a label for the amount field and pack it into the GUI
+amount_label = ttk.Label(bottom_frame, text="Amount:")
+amount_label.grid(row=5, column=0, padx=10, pady=3)
+
+# Create a variable to store the amount
+amount = DoubleVar()
+amount.set("")
+
+# Create an entry to type in amount
+amount_entry = ttk.Entry(bottom_frame, textvariable=amount)
+amount_entry.grid(row=5, column=1, padx=10, pady=3, sticky="WE")
+
+# Create a submit button
+submit_button = ttk.Button(bottom_frame, text="Submit", command=manage_action)
+submit_button.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
+
+# Create an action feedback label
+action_feedback = StringVar()
+action_feedback_label = ttk.Label(bottom_frame, textvariable=action_feedback)
+action_feedback_label.grid(row=7, column=0, columnspan=2)
+
+#bonus calculate button
+bonus_button = ttk.Button(bottom_frame, text="bonus")
+bonus_button.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
+
+
+
+if __name__ == "__main__":
+    root.mainloop()    
