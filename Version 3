@@ -5,6 +5,7 @@ import random
 #Account class creation
 
 
+
 class Account:
     def __init__(self, name, balance, bonus):
         self.name = name
@@ -50,6 +51,7 @@ def update_balance():
         account_file.write("{},{},{}\n".format(account.name, account.balance, account.bonus))           
     
     
+
 
 def withdraw_money(account):
     if account.withdraw(amount.get()):
@@ -100,17 +102,6 @@ for line in line_list:
 
 
 
-
-f_name=(account_data[0])
-f_balance=(account_data[1])
-f_bonus=(account_data[2])
-
-
-
-
-nikau = Account(f_name, f_balance , f_bonus)
-hana = Account(f_name, f_balance, f_bonus)
-tia = Account(f_name, f_balance, f_bonus)
 account_names = create_name_list()
 
 
@@ -183,6 +174,8 @@ bonus_button.grid(row=7, column=0, columnspan=2, padx=10, pady=10)
 action_feedback = StringVar()
 action_feedback_label = ttk.Label(bottom_frame, textvariable=action_feedback)
 action_feedback_label.grid(row=8, column=0, columnspan=2)
+
+
 
 
 
