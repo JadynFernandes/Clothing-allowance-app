@@ -60,8 +60,6 @@ def withdraw_money(account):
     else:
         action_feedback.set("Not enough money in {} or not a valid amount".format(account.name))
 
-#def change_bonus(account):
-    #if account.b
     
 def create_name_list():
     name_list = []
@@ -202,9 +200,6 @@ action_feedback_label.grid(row=7, column=0, columnspan=2)
 #bonus calculate button
 bonus_button = ttk.Button(bottom_frame, text="bonus")
 bonus_button.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
-
-
-
 
 
 
